@@ -4,6 +4,7 @@
             <el-col :span="6">
                 <el-button-group>
                     <el-button type="primary" icon="el-icon-plus" @click="onCreate">新建</el-button>
+                    <slot name="main-actions"></slot>
                 </el-button-group>
             </el-col>
             <el-col :span="18">
@@ -21,8 +22,9 @@
             <slot></slot>
             <el-table-column label="操作" fixed="right" width="200">
                 <div slot-scope="scope">
-                    <el-button size="mini" type="primary" @click="onEditRow(scope.row)">编辑</el-button>
-                    <el-button size="mini" type="danger" @click="onDeleteRow(scope.row)">删除</el-button>
+                    <slot name="actions" :row="scope.row"></slot>
+                    <el-button type="text" @click="onEditRow(scope.row)">编辑</el-button>
+                    <el-button type="text" @click="onDeleteRow(scope.row)">删除</el-button>
                 </div>
             </el-table-column>
         </el-table>
@@ -110,6 +112,7 @@
                         };
                         $.ajax({
                             url: this.controllerUrl + this.saveUrl,
+                            method:"post",
                             dataType: "json",
                             data
                         }).then((res) => {
@@ -131,6 +134,7 @@
                         };
                         $.ajax({
                             url: this.controllerUrl + this.deleteUrl,
+                            method:"post",
                             dataType: "json",
                             data
                         }).then((res) => {
@@ -167,6 +171,9 @@
             }
         },
         methods: {
+            refresh(){
+                this.loadPageData();
+            },
             loadPageData(search) {
                 this.loadData({ ...this.pagination}, { ...this.dataOptions}, {...search, ...this.attachData}).then((response) => {
                     this.list = response.data;
@@ -180,11 +187,18 @@
             onCreate() {
                 this.model = {};
                 this.dialogVisible = true;
+                setTimeout(()=>{
+                    this.$emit("on-create", "");
+                },100);
+                
             },
             onEditRow(row) {
-                this.model = { ...row
-                };
+                this.model = { ...row};
                 this.dialogVisible = true;
+                setTimeout(()=>{
+                   this.$emit("on-edit", "");
+                },100);
+                
             },
             onDeleteRow(row) {
                 this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {
