@@ -1,7 +1,11 @@
 <template>
     <div>
+
+        <gui-panel title="网站整体情况">
+            jjj
+        </gui-panel>
         
-        <gui-data-page-list controller-url="/api/news/news" :attach-data="attachData" @on-create="onCreate" @on-edit="onCreate">
+        <gui-page-list base-url="/api/news/news" :attach-data="attachData" @on-create="onCreate" @on-edit="onCreate" >
             <el-table-column prop="createTime" label="日期" width="180">
             </el-table-column>
             <el-table-column prop="title" label="姓名" width="180">
@@ -19,7 +23,7 @@
                     <gui-foreign-select data-url="/api/news/news-type/page-list" data-key-url="/api/news/news-type/find" data-name="type" data-text="分类" v-model="scope.model.typeid"></gui-foreign-select>
                 </el-form-item>
                 <el-form-item label="内容">
-                    <gui-rich-text ref="editor" editor-home="/static/ueditor/" v-model="scope.model.body"></gui-rich-text>
+                    <gui-rich-text ref="editor" v-model="scope.model.body"></gui-rich-text>
                 </el-form-item>
             </div>
             <template slot="search" slot-scope="scope">
@@ -33,7 +37,7 @@
                 <el-button @click="toggleCarousel(scope.row)" type="text" size="small"><span v-if="!scope.row.carousel">设为轮播</span><span v-if="scope.row.carousel">取消轮播</span></el-button>
                 <el-button @click="togglePub(scope.row)" type="text" size="small"><span v-if="!scope.row.pub">设为公告</span><span v-if="scope.row.pub">取消公告</span></el-button>
             </template>
-        </gui-data-page-list>
+        </gui-page-list>
     </div>
 </template>
 <script>

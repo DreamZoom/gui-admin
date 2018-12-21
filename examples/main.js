@@ -5,13 +5,8 @@ import App from './App'
 import router from './router'
 
 
-
-import ElementUI from 'element-ui';
-import 'element-ui/lib/theme-chalk/index.css';
-
 import guiAdmin from '../src/index';
 
-Vue.use(ElementUI);
 Vue.use(guiAdmin);
 
 Vue.config.productionTip = false

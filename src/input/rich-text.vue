@@ -11,74 +11,83 @@
                 type: [String],
                 default: ''
             },
-            uploadAction: {
-                type: [String],
-                default: ''
-            },
             id: {
                 type: [String],
                 default: function() {
                     return "editor_" + new Date().getTime();
                 }
             },
-            editorHome: {
-                type: [String],
-                default: ''
+            options: {
+                type: Object,
+                default: function() {
+                    return {};
+                }
             }
         },
         data() {
             return {
-                inputValue: this.value
+                ready: false
             }
         },
         mounted() {
-            console.log(this.inputValue);
-            var context = this;
-            this.editor = UE.getEditor(this.id, {
-                zIndex: 2018,
-                BaseUrl: '',
-                autotypeset: {
-                    pasteFilter: false,
-                },
-                retainOnlyLabelPasted: false,
-                pasteplain: false,
-                allowDivTransToP: false,
-                UEDITOR_HOME_URL: this.editorHome,
-                toolbars: [
-                    ['fullscreen', 'source', 'undo', 'redo'],
-                    ['bold', 'italic', 'underline', 'fontborder', 'simpleupload', 'insertimage', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'selectall', 'cleardoc', 'xiumi-connect']
-                ]
-            });
-            this.editor.addListener("contentChange", function() {
-                context.$emit("input", context.editor.getContent());
-            });
-            this.editor.addListener('ready', function(editor) {
-                
-                if (context.editor) {
-                    console.log(context.editor);
-                    context.editor.execCommand('focus');
-                    context.editor.setContent(context.value);
-                }
-            });
-        },
-        beforeUpdate() {
-            if (this.editor) {
-                this.editor.setContent(this.value);
-            }
+            this.init();
         },
         watch: {
             value(v, o) {
-                if (this.editor) {
-                     //this.editor.setContent(this.value);
-                }
+                // if (this.editor && this.ready) {
+                //     this.editor.setContent(this.value);
+                //     this.editor.focus(true);
+                // }
             }
         },
         methods: {
-            refresh(v){
-                if (this.editor) {
+             init() {
+                var context = this;
+                this.editor = UE.getEditor(this.id, {
+                    zIndex: 2018,
+                    autotypeset: {
+                        pasteFilter: false,
+                    },
+                    retainOnlyLabelPasted: false,
+                    pasteplain: false,
+                    allowDivTransToP: false,
+                    elementPathEnabled: false,
+                    autoFloatEnabled:false,
+                    toolbars: [
+                        // ['fullscreen', 'source', 'undo', 'redo'],
+                        ['bold', 'italic', 'underline', 'fontborder', 'simpleupload', 'insertimage', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'cleardoc', 'xiumi-connect', '|', 'undo', 'redo']
+                    ],
+                    ...this.options
+                });
+                this.editor.addListener("contentChange", function() {
+                    context.$emit("input", context.editor.getContent());
+                });
+                this.editor.addListener('ready', function(editor) {
+                    context.ready = true;
+                    context.editor.setContent(context.value || ' ');
+                });
+            },
+            destroy() {
+                if (this.editor && this.ready) {
+                     this.editor.destroy();
+                }
+            },
+            refresh() {
+                if (this.editor && this.ready) {
                     this.editor.setContent(this.value);
                 }
             },
+            setValue(value) {
+                if (this.editor && this.ready) {
+                    this.editor.setContent(value);
+                }
+            },
+            getValue() {
+                if (this.editor && this.ready) {
+                    return this.editor.getContent();
+                }
+            },
+           
         }
     }
 </script>
