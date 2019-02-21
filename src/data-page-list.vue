@@ -32,7 +32,7 @@
             <el-pagination :total="pagination.records" :page-size.sync="pagination.size" :current-page.sync="pagination.page" @current-change="onPageChange">
             </el-pagination>
         </div>
-        <el-dialog title="编辑" :visible.sync="dialogVisible" width="60%">
+        <el-dialog title="编辑" v-if="dialogVisible" :visible.sync="dialogVisible" width="60%">
             <div>
                 <el-form ref="form" :model="model" label-width="100px">
                     <slot name="edit" :model="model"></slot>
@@ -195,16 +195,10 @@
             onCreate() {
                 this.model = {};
                 this.dialogVisible = true;    
-                setTimeout(()=>{
-                    this.$emit("on-edit",this.model);
-                },100);
             },
             onEditRow(row) {
                 this.model = { ...row};
                 this.dialogVisible = true;
-                setTimeout(()=>{
-                    this.$emit("on-edit",this.model);
-                },100);  
             },
             onDeleteRow(row) {
                 this.$confirm('此操作将永久删除该记录, 是否继续?', '提示', {

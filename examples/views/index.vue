@@ -1,18 +1,25 @@
 <template>
     <div>
 
-        <gui-panel title="网站整体情况">
-            jjj
-        </gui-panel>
+        <gui-tree-list base-url="/api/news/category" id="id" text="name" parentId="parentId">
+            <template slot="edit" slot-scope="scope">
+                <el-form-item label="分类名称">
+                    <el-input v-model="scope.model.name"></el-input>
+                </el-form-item>
+                <el-form-item label="分类描述">
+                    <el-input v-model="scope.model.remark"></el-input>
+                </el-form-item>
+            </template>
+        </gui-tree-list>
         
-        <gui-page-list base-url="/api/news/news" :attach-data="attachData" @on-create="onCreate" @on-edit="onCreate" >
+        <gui-page-list base-url="/api/news/post" :attach-data="attachData" >
             <el-table-column prop="createTime" label="日期" width="180">
             </el-table-column>
             <el-table-column prop="title" label="姓名" width="180">
             </el-table-column>
             <el-table-column prop="face" label="地址">
             </el-table-column>
-            <div slot="edit" slot-scope="scope">
+            <template slot="edit" slot-scope="scope">
                 <el-form-item label="活动名称">
                     <el-input v-model="scope.model.title"></el-input>
                 </el-form-item>
@@ -20,12 +27,12 @@
                     <gui-image-upload v-model="scope.model.face"></gui-image-upload>
                 </el-form-item>
                 <el-form-item label="分类">
-                    <gui-foreign-select data-url="/api/news/news-type/page-list" data-key-url="/api/news/news-type/find" data-name="type" data-text="分类" v-model="scope.model.typeid"></gui-foreign-select>
+                    <gui-foreign-tree data-url="/api/news/category/list" data-key-url="/api/news/category/find" data-name="name" data-text="分类" v-model="scope.model.categoryId"></gui-foreign-tree>
                 </el-form-item>
                 <el-form-item label="内容">
                     <gui-rich-text ref="editor" v-model="scope.model.body"></gui-rich-text>
                 </el-form-item>
-            </div>
+            </template>
             <template slot="search" slot-scope="scope">
                  <el-form-item label="标题">
                     <el-input v-model="scope.model.title"></el-input>
@@ -51,9 +58,9 @@
         methods:{
             onCreate(){
                 console.log("sss");
-                if(this.$refs.editor){
-                    this.$refs.editor.refresh();
-                }
+                // if(this.$refs.editor){
+                //     this.$refs.editor.refresh();
+                // }
                 
             }
         }

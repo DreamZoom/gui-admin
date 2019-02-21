@@ -6,11 +6,14 @@ import dataPageList from "./data-page-list";
 import imageUpload from "./input/image-upload";
 import richText from "./input/rich-text";
 import foreignSelect from "./input/foreign-key-select";
+import foreignTree from "./input/foreign-key-tree";
 
 import panel from "./panel";
 import pageList from "./page-list";
+import treeList from "./tree-list";
 
 
+import $ from 'jquery';
 
 const components = {
     "page-list":pageList,
@@ -18,8 +21,11 @@ const components = {
     "image-upload":imageUpload,
     "rich-text":richText,
     "foreign-select":foreignSelect,
+    'foreign-tree':foreignTree,
+    'tree-list':treeList,
     panel
 }
+
 
 
 
@@ -28,7 +34,14 @@ const install = function (Vue, Option) {
         Vue.component("gui-"+key, components[key])
     });
 
-    Vue.use(elememt);
+    Vue.use(elememt,{size:"mini"});
+    Vue.prototype.$http=function(options){
+        options=$.extend({
+            method: "get",
+            dataType: "json",
+        },options);
+        return $.ajax(options);
+    }
 }
 
 // auto install

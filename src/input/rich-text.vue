@@ -30,18 +30,15 @@
             }
         },
         mounted() {
+            console.log("init");
             this.init();
         },
-        watch: {
-            value(v, o) {
-                // if (this.editor && this.ready) {
-                //     this.editor.setContent(this.value);
-                //     this.editor.focus(true);
-                // }
-            }
+        destroyed() {
+            console.log("destroyed");
+            this.destroy();
         },
         methods: {
-             init() {
+            init() {
                 var context = this;
                 this.editor = UE.getEditor(this.id, {
                     zIndex: 2018,
@@ -52,10 +49,10 @@
                     pasteplain: false,
                     allowDivTransToP: false,
                     elementPathEnabled: false,
-                    autoFloatEnabled:false,
+                    autoFloatEnabled: true,
                     toolbars: [
                         // ['fullscreen', 'source', 'undo', 'redo'],
-                        ['bold', 'italic', 'underline', 'fontborder', 'simpleupload', 'insertimage', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'cleardoc', 'xiumi-connect', '|', 'undo', 'redo']
+                        ['bold', 'italic', 'underline', 'fontborder','link', 'simpleupload', 'insertimage', 'strikethrough', 'superscript', 'subscript', 'removeformat', 'formatmatch', 'blockquote', 'pasteplain', '|', 'forecolor', 'backcolor', 'insertorderedlist', 'insertunorderedlist', 'cleardoc', 'xiumi-connect', '|', 'undo', 'redo']
                     ],
                     ...this.options
                 });
@@ -69,7 +66,7 @@
             },
             destroy() {
                 if (this.editor && this.ready) {
-                     this.editor.destroy();
+                    this.editor.destroy();
                 }
             },
             refresh() {
@@ -87,7 +84,6 @@
                     return this.editor.getContent();
                 }
             },
-           
         }
     }
 </script>
