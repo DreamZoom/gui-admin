@@ -1,7 +1,7 @@
 <template>
     <div>
 
-        <gui-tree-list base-url="/api/news/category" id="id" text="name" parentId="parentId">
+        <!-- <gui-tree-list base-url="/api/news/category" id="id" text="name" parentId="parentId">
             <template slot="edit" slot-scope="scope">
                 <el-form-item label="分类名称">
                     <el-input v-model="scope.model.name"></el-input>
@@ -10,9 +10,9 @@
                     <el-input v-model="scope.model.remark"></el-input>
                 </el-form-item>
             </template>
-        </gui-tree-list>
+        </gui-tree-list> -->
         
-        <gui-page-list base-url="/api/news/post" :attach-data="attachData" >
+        <!-- <gui-page-list base-url="/api/news/post" :attach-data="attachData" >
             <el-table-column prop="createTime" label="日期" width="180">
             </el-table-column>
             <el-table-column prop="title" label="姓名" width="180">
@@ -44,7 +44,11 @@
                 <el-button @click="toggleCarousel(scope.row)" type="text" size="small"><span v-if="!scope.row.carousel">设为轮播</span><span v-if="scope.row.carousel">取消轮播</span></el-button>
                 <el-button @click="togglePub(scope.row)" type="text" size="small"><span v-if="!scope.row.pub">设为公告</span><span v-if="scope.row.pub">取消公告</span></el-button>
             </template>
-        </gui-page-list>
+        </gui-page-list> -->
+
+
+
+        <gui-product-editor></gui-product-editor>
     </div>
 </template>
 <script>

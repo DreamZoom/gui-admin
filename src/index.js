@@ -11,6 +11,9 @@ import foreignTree from "./input/foreign-key-tree";
 import panel from "./panel";
 import pageList from "./page-list";
 import treeList from "./tree-list";
+import productEditor from "./product-editor";
+import tagsEditor from "./tags-editor";
+import skusEditor from "./skus-editor";
 
 
 import $ from 'jquery';
@@ -23,7 +26,10 @@ const components = {
     "foreign-select":foreignSelect,
     'foreign-tree':foreignTree,
     'tree-list':treeList,
-    panel
+    panel,
+    'product-editor':productEditor,
+    'tags-editor':tagsEditor,
+    'skus-editor':skusEditor
 }
 
 
